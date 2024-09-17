@@ -74,7 +74,6 @@ server.post("/", async (req, res, next) => {
     ];
     console.info("compra", items_ml);
     // Crea un objeto de preferencia
-
     let preference = {
       items: items_ml,
       external_reference: `${newOrder.dataValues.id}`, //`${new Date().valueOf()}`,

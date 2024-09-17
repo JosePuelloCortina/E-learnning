@@ -174,7 +174,7 @@ export default function Login() {
               Ingresar
             </button>
             <GoogleLogin
-              clientId="182193606082-foogb22mq9p98ci7l3qc9he32nu60cd3.apps.googleusercontent.com"
+              clientId="275221104976-ao35sbaekv1sb9d5g904v51k0uescmbf.apps.googleusercontent.com"
               render={(renderProps) => (
                 <button
                   className={style.google}

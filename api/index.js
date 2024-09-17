@@ -42,6 +42,8 @@ conn.sync({ force: true }).then(async () => {
     await initializeAvatar();
     await initializeReviews();
 
+    //hola
+
     console.log("Tablas cargadas!!");
     server.listen(process.env.PORT, () => {
       console.log(`%s listening at ${process.env.PORT}`); // eslint-disable-line no-console

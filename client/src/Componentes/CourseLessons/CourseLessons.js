@@ -21,7 +21,7 @@ export default function CourseLessons() {
   const course = useSelector((state) => state.courseDetail);
   const loggedUserId = useSelector((state) => state.loggedUsers);
   // const allUsers = useSelector((state) => state.user);
-  const allReviews = useSelector (state => state.reviews)
+  const allReviews = useSelector((state) => state.reviews);
   // const user = allUsers.find((e) => e.id === loggedUserId[0]);
   const user = useSelector((state) => state.userDetail);
 
@@ -32,14 +32,15 @@ export default function CourseLessons() {
   let myBuys = user.buys ? user.buys.map((buy) => buy) : [];
   let myBuysThisCourse = myBuys.filter((buy) => buy.courseId === id);
   let myBuy = myBuysThisCourse.length > 0 ? myBuysThisCourse[0] : null;
-  let courseClasses = myBuysThisCourse[0] && myBuysThisCourse[0].clases.map((clase) => clase);
+  let courseClasses =
+    myBuysThisCourse[0] && myBuysThisCourse[0].clases.map((clase) => clase);
   console.log(myBuy, "myBuy");
 
   const instructorClases = totalClasses.filter((c) => c.courseId === course.id);
   console.log(course, "course");
   console.log(courseClasses, "courseClasses");
   console.log(user, "esto es user");
-  console.log(allReviews, 'esto es reviews')
+  console.log(allReviews, "esto es reviews");
   const [currentLesson, setCurrentLesson] = useState({});
   const [form, setForm] = useState(false);
   const [review, setReview] = useState({
@@ -47,7 +48,7 @@ export default function CourseLessons() {
     score: "",
     coment: "",
     userName: user.name,
-    userId: user.id
+    userId: user.id,
   });
 
   console.log(review);
@@ -58,7 +59,7 @@ export default function CourseLessons() {
 
   useEffect(() => dispatch(getAllClasses()), []);
   useEffect(() => dispatch(allUser()), []);
-  useEffect(() => dispatch(getAllReviews()), [])
+  useEffect(() => dispatch(getAllReviews()), []);
 
   function handleClose(e) {
     e.preventDefault(e);
@@ -75,33 +76,26 @@ export default function CourseLessons() {
 
   function handleSubmit(e) {
     e.preventDefault(e);
-    const prevCourse = allReviews.filter( e => e.idCourse === id)
-    const prevReview = prevCourse.filter(e => e.userId === user.id)
-    if (!prevReview.length){
-    if (review.score && review.coment) {
-      dispatch(createReview(review));
-      alert("Calificación enviada.");
-      dispatch(getAllReviews());
-      setForm(false);
-      setReview(
-       {  
+    const prevCourse = allReviews.filter((e) => e.idCourse === id);
+    const prevReview = prevCourse.filter((e) => e.userId === user.id);
+    if (!prevReview.length) {
+      if (review.score && review.coment) {
+        dispatch(createReview(review));
+        alert("Calificación enviada.");
+        dispatch(getAllReviews());
+        setForm(false);
+        setReview({
           score: "",
           coment: "",
-          }
-      )
+        });
+      } else {
+        alert("Por favor seleccione un puntaje y deje su comentario.");
+      }
     } else {
-      alert("Por favor seleccione un puntaje y deje su comentario.");
+      alert("Ya calificaste este curso! Sólo podes hacerlo una vez.");
+      setForm(false);
     }
   }
- else {
-  alert('Ya calificaste este curso! Sólo podes hacerlo una vez.');
-  setForm(false);
-}
-}
-
-
-
-
 
   function resetCurrentLesson() {
     setCurrentLesson({});
@@ -116,11 +110,21 @@ export default function CourseLessons() {
           <div className={style.title}>
             <h1 onClick={() => resetCurrentLesson()}>{course.name} </h1>
 
-{user.roles[0].tipo === "instructor"?<h3 
-            style={course.state === "passed"? {color:"green"}:{color:"red"}}
-            >{course.state==="inprocess"?"(Estado: En revision)": course.state==="reject"? "(Estado: rechazado)":"(Estado: Aprobado)"}
-            </h3>:null }
-
+            {user.roles[0].tipo === "instructor" ? (
+              <h3
+                style={
+                  course.state === "passed"
+                    ? { color: "green" }
+                    : { color: "red" }
+                }
+              >
+                {course.state === "inprocess"
+                  ? "(Estado: En revision)"
+                  : course.state === "reject"
+                  ? "(Estado: rechazado)"
+                  : "(Estado: Aprobado)"}
+              </h3>
+            ) : null}
           </div>
         </div>
 
@@ -137,7 +141,7 @@ export default function CourseLessons() {
           </div>
           <div className={style.right}>
             <LessonsList
-              myBuy = {myBuy}
+              myBuy={myBuy}
               lessons={courseClasses}
               form={form}
               setForm={setForm}
